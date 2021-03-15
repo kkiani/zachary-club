@@ -26,7 +26,7 @@ def main():
 
     # Loading Dataset
     edge_list = []
-    with open(os.path.join(training_dir, 'data', 'edge_list.pickle'), 'rb') as file:
+    with open(os.path.join(training_dir, 'edge_list.pickle'), 'rb') as file:
         edge_list = pickle.load(file)
         edge_list = [[int(x[0]), int(x[1])] for x in edge_list]     # Dataset is in str format and dgl supports only int datatypes.
 
