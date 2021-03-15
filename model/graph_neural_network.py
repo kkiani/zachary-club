@@ -13,8 +13,8 @@ class GraphConvolutionNetwork(nn.Module):
         self.gcl2 = GraphConv(hidden_size, num_classes)
 
     def forward(self, graph: DGLGraph, inputs):
-        x = self.gcl1(graph, input)
+        x = self.gcl1(graph, inputs)
         x = th.relu(x)
         x = self.gcl2(graph, x)
         
-        return th.softmax(x)
+        return nn.Softmax(x)
