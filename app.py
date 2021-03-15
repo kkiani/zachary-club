@@ -15,13 +15,14 @@ class GraphConvolutionNetwork(nn.Module):
 
         self.gcl1 = GraphConv(in_feats, hidden_size)
         self.gcl2 = GraphConv(hidden_size, num_classes)
+        self.softmax = nn.Softmax()
 
     def forward(self, graph: dgl.DGLGraph, inputs):
         x = self.gcl1(graph, inputs)
         x = th.relu(x)
         x = self.gcl2(graph, x)
         
-        return nn.Softmax(x)
+        return self.softmax(x)
 
 
 
@@ -37,8 +38,8 @@ def main():
     epochs = args.epochs
     learning_rate = args.learning_rate
 
-    training_dir = os.environ['SM_CHANNEL_TRAINING']
-    model_dir    = os.environ['SM_MODEL_DIR']
+    training_dir = 'data' #os.environ['SM_CHANNEL_TRAINING']
+    model_dir    = '' #os.environ['SM_MODEL_DIR']
 
     # Loading Dataset
     edge_list = []
@@ -66,19 +67,19 @@ def main():
     label = th.tensor([0, 1])
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    all_pred = []
+    all_preds = []
 
     for epoch in range(epochs):
-        pred = model(graph, inputs)
-        all_pred.append(pred)
+        preds = model(graph, inputs)
+        all_preds.append(preds)
 
-        loss = F.cross_entropy(pred[labeled_nodes], label)
+        loss = F.cross_entropy(preds[labeled_nodes], label)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
         print('Epoch %d | Loss: %.4f' % (epoch, loss.item()))
 
-    last_epoch = all_pred[epochs-1].detach().numpy()
+    last_epoch = all_preds[epochs-1].detach().numpy()
     predicted_class = np.argmax(last_epoch, axis=-1)
 
     print(predicted_class)
