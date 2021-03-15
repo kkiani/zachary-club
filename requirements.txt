@@ -1,0 +1,9 @@
+torch
+torchvision
+torchaudio
+dgl
+numpy
+networkx
+matplotlib
+sagemaker
+boto3
