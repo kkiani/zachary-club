@@ -68,7 +68,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     all_pred = []
 
-    for epoch in epochs:
+    for epoch in range(epochs):
         pred = model(graph, inputs)
         all_pred.append(pred)
 
