@@ -21,7 +21,7 @@ class GraphConvolutionNetwork(nn.Module):
         x = self.gcl1(graph, inputs)
         x = th.relu(x)
         x = self.gcl2(graph, x)
-        
+
         return self.softmax(x)
 
 
@@ -38,8 +38,8 @@ def main():
     epochs = args.epochs
     learning_rate = args.learning_rate
 
-    training_dir = 'data' #os.environ['SM_CHANNEL_TRAINING']
-    model_dir    = '' #os.environ['SM_MODEL_DIR']
+    training_dir = os.environ['SM_CHANNEL_TRAINING']
+    model_dir    = os.environ['SM_MODEL_DIR']
 
     # Loading Dataset
     edge_list = []
