@@ -52,7 +52,7 @@ def main():
     graph.add_nodes(node_count)
     src, dst = tuple(zip(*edge_list))
     graph.add_edges(src, dst)
-    graph.add_nodes(dst, src)
+    graph.add_edges(dst, src)
 
     print(f'The model have {graph.number_of_nodes()} nodes.')
     print(f'The model have {graph.number_of_edges()} edges.')
