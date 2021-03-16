@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os, pickle, argparse
 import dgl
 import numpy as np
