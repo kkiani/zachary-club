@@ -1,29 +1,11 @@
 import os, pickle, argparse
-from torch.autograd import grad
 import dgl
+import numpy as np
 import torch as th
-import torch.nn as nn
 from torch import optim
 import torch.nn.functional as F
-import numpy as np
-from dgl.nn import GraphConv
 
-
-class GraphConvolutionNetwork(nn.Module):
-    def __init__(self, in_feats, hidden_size, num_classes):
-        super(GraphConvolutionNetwork, self).__init__()
-
-        self.gcl1 = GraphConv(in_feats, hidden_size)
-        self.gcl2 = GraphConv(hidden_size, num_classes)
-        self.softmax = nn.Softmax()
-
-    def forward(self, graph: dgl.DGLGraph, inputs):
-        x = self.gcl1(graph, inputs)
-        x = th.relu(x)
-        x = self.gcl2(graph, x)
-
-        return self.softmax(x)
-
+from model.graph_neural_network import GraphConvolutionNetwork
 
 
 def main():
