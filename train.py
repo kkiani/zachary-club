@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, pickle, argparse
+import os, pickle, json
 import dgl
 import numpy as np
 import torch as th
@@ -11,19 +11,18 @@ from model.graph_neural_network import GraphConvolutionNetwork
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', type=int, default=30)
-    parser.add_argument('--node-count', type=int)
-    parser.add_argument('--learning-rate', type=float, default=0.1)
-    args, _ = parser.parse_known_args()
-
     # Setup Variables
-    node_count = args.node_count
-    epochs = args.epochs
-    learning_rate = args.learning_rate
+    config_dir = '/opt/ml/input/config'
+    training_dir = '/opt/ml/input/data/training'
+    model_dir = '/opt/ml/model'
 
-    training_dir = os.environ['SM_CHANNEL_TRAINING']
-    model_dir    = os.environ['SM_MODEL_DIR']
+    with open(os.path.join(config_dir, 'hyperparameters.json')) as f:
+        parameters_dict = json.load(f)
+        print(parameters_dict)
+
+        node_count = int(parameters_dict['node-count'])
+        epochs = int(parameters_dict['epochs'])
+        learning_rate = float(parameters_dict['learning-rate'])
 
     # Loading Dataset
     edge_list = []
