@@ -1,4 +1,4 @@
-FROM torch:1.8-cpu
+FROM pytorch/pytorch:latest
 
 RUN pip install --no-cache dgl numpy
 
